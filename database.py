@@ -50,12 +50,12 @@ class NEODatabase:
 
         for idx, neo in enumerate(neos):
             self._neo_idx_by_designation[neo.designation] = idx
-        
             if neo.name:
                 self._neo_idx_by_name[neo.name] = idx
 
         for a in self._approaches:
             a.neo = self.get_neo_by_designation(a._designation)
+
             if a.neo:
                 a.neo.approaches.append(a)
 
@@ -108,7 +108,6 @@ class NEODatabase:
         """
         if not filters:
             yield from self._approaches
-
         else:
             for approach in self._approaches:
                 if all(f(approach) for f in filters):

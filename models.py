@@ -16,12 +16,13 @@ data files from NASA, so these objects should be able to handle all of the
 quirks of the data set, such as missing names and unknown diameters.
 
 You'll edit this file in Task 1.
-
 Task 1 done by emanoeltadeu@gmail.com
 """
-import datetime
+from datetime import datetime
+
 from helpers import cd_to_datetime, datetime_to_str
 import math
+
 
 class NearEarthObject:
     """A near-Earth object (NEO).
@@ -36,24 +37,27 @@ class NearEarthObject:
     `NEODatabase` constructor.
     """
 
-    def __init__(self,  designation, name = None, diameter= float("nan"),hazardous = False, approaches= []):
-        """Create a new `NearEarthObject`.
-        :param designation: the designation of the NearEarthObject`
-        :param name: The IAU name
-        :param diameter: The diameter, in kilometers
-        :param hazardous: potentially hazardous.
-        :param approaches: A collection of NearEarthObject
+    def __init__(self,  designation, name = None, diameter= float("nan"),hazardous = False, approaches = None):
 
+        """Create a new `NearEarthObject`.
+
+        :param designation: The primary designation for this `NearEarthObject`.
+        :param name: The IAU name for this `NearEarthObject`.
+        :param diameter: The diameter, in kilometers, of this `NearEarthObject`.
+        :param hazardous: Whether or not this `NearEarthObject` is potentially hazardous.
+        :param approaches: A collection of this `NearEarthObject`'s close approaches to Earth.
         """
+
         self.designation = designation
         self.name = name
         self.diameter = diameter
         self.hazardous = hazardous
-        self.approaches = approaches
+        self.approaches = approaches if approaches else []
 
     @property
     def fullname(self):
         """Return a representation of the full name of this NEO."""
+        
         if self.name:
             return f"{self.designation} ({self.name})"
         return f"{self.designation}"
@@ -68,12 +72,9 @@ class NearEarthObject:
         """Return `repr(self)`, a computer-readable string representation of this object."""
         return (f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, "
                 f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})")
-    
+
     def serialize(self):
         """Return a dict representation of self attributes.
-        
-        Returns:
-            [dict]: Keys associated with self attributes.
             
         """
         return {
@@ -93,26 +94,24 @@ class CloseApproach:
     in kilometers per second.
 
     A `CloseApproach` also maintains a reference to its `NearEarthObject` -
-    initally, this information (the NEO's primary designation) is saved in a
+    initially, this information (the NEO's primary designation) is saved in a
     private attribute, but the referenced NEO is eventually replaced in the
     `NEODatabase` constructor.
-    
-    Task 1 done by emanoeltadeu@gmail.com
     """
 
     def __init__(self, designation, time, distance, velocity):
         """Create a new `CloseApproach`.
 
-        :param designation: the designation of the NearEarthObject`
-        :param time: The date and time, NEO passes.
-        :param distance: The distance, in astronomical units, of the NEO to Earth
-        :param velocity: The velocity, in kilometers per second, of the NEO
-
+        :param designation: the designation of the NearEarthObject` that is making a
+                            close approach to Earth.
+        :param time: The date and time, in UTC, at which the NEO passes closest to Earth.
+        :param distance: The nominal approach distance, in astronomical units, of the NEO
+                         to Earth at the closest point.
+        :param velocity: The velocity, in kilometers per second, of the NEO relative to
+                         Earth at the closest point.
         """
         self._designation = designation
-        
         self.time = cd_to_datetime(time)
-
         self.distance = distance
         self.velocity = velocity
 
@@ -141,3 +140,13 @@ class CloseApproach:
         """Return `repr(self)`, a computer-readable string representation of this object."""
         return (f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, "
                 f"velocity={self.velocity:.2f}, neo={self.neo!r})")
+
+    def serialize(self):
+        """Return a dict representation of self attributes.
+            
+        """
+        return {
+            "datetime_utc": datetime_to_str(self.time),
+            "distance_au": self.distance,
+            "velocity_km_s": self.velocity
+        }

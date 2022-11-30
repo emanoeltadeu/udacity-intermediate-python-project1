@@ -23,7 +23,6 @@ from datetime import datetime
 from helpers import cd_to_datetime, datetime_to_str
 import math
 
-
 class NearEarthObject:
     """A near-Earth object (NEO).
 
@@ -38,7 +37,6 @@ class NearEarthObject:
     """
 
     def __init__(self,  designation, name = None, diameter= float("nan"),hazardous = False, approaches = None):
-
         """Create a new `NearEarthObject`.
 
         :param designation: The primary designation for this `NearEarthObject`.
@@ -47,7 +45,6 @@ class NearEarthObject:
         :param hazardous: Whether or not this `NearEarthObject` is potentially hazardous.
         :param approaches: A collection of this `NearEarthObject`'s close approaches to Earth.
         """
-
         self.designation = designation
         self.name = name
         self.diameter = diameter
@@ -57,7 +54,6 @@ class NearEarthObject:
     @property
     def fullname(self):
         """Return a representation of the full name of this NEO."""
-        
         if self.name:
             return f"{self.designation} ({self.name})"
         return f"{self.designation}"
@@ -74,9 +70,7 @@ class NearEarthObject:
                 f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})")
 
     def serialize(self):
-        """Return a dict representation of self attributes.
-            
-        """
+        """Return a dict representation of self attributes."""
         return {
             "designation": self.designation,
             "name": self.name,
@@ -142,9 +136,7 @@ class CloseApproach:
                 f"velocity={self.velocity:.2f}, neo={self.neo!r})")
 
     def serialize(self):
-        """Return a dict representation of self attributes.
-            
-        """
+        """Return a dict representation of self attributes."""
         return {
             "datetime_utc": datetime_to_str(self.time),
             "distance_au": self.distance,

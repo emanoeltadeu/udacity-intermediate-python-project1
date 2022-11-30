@@ -74,64 +74,79 @@ class AttributeFilter:
     def __repr__(self):
         """Repr method used to compare filter attribute."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
-   
+
 class DateFilter(AttributeFilter):
-    """Subclass of AttributeFilter to filter CloseApproach objects by date.
-    
-    """
+    """Subclass of AttributeFilter to filter CloseApproach objects by date."""
 
     @classmethod
     def get(cls, approach):
-        """Return time converted to date
+        """Return approach.time converted to datetime.datetime object for the date filter.
+        
+        Args:
+            approach (CloseApproach): A CloseApproach object.
+        Returns:
+            [datetime.datetime]: Converted time to datetime object.
             
         """
         return approach.time.date()
 
 class DistanceFilter(AttributeFilter):
-    """Subclass of AttributeFilter to filter approach objects by distance.
-    
-    """
+    """Subclass of AttributeFilter to filter approach objects by distance."""
 
     @classmethod
     def get(cls, approach):
-        """Return distance
+        """Return distance of the CloseApproach objectfor the distance filter.
+        
+        Args:
+            approach (CloseApproach): A CloseApproach object.
+        Returns:
+            [float]: Returns the distance of a CloseApproach.
             
         """
         return approach.distance
     
 class VelocityFilter(AttributeFilter):
-    """Subclass of AttributeFilter to filter approach objects by velocity.
-    
-    """
+    """Subclass of AttributeFilter to filter approach objects by velocity."""
 
     @classmethod
     def get(cls, approach):
-        """Return approach.velocity
+        """Return approach.velocity for the velocity filter.
+        
+        Args:
+            approach (CloseApproach): A CloseApproach object.
+        Returns:
+            [float]: Returns the velocity of a CloseApproach.
             
         """
         return approach.velocity
     
 class DiameterFilter(AttributeFilter):
-    """Subclass of AttributeFilter to filter approach objects by diameter.
-    
-    """
+    """Subclass of AttributeFilter to filter approach objects by diameter."""
 
     @classmethod
     def get(cls, approach):
-        """Return the diameter
+        """Return the diameter of the neo assigned to the CloseApproach object for the diameter filter.
+        
+        Args:
+            approach (CloseApproach): A CloseApproach object.
+        Returns:
+            [float]: Returns the diameter of a NearEarthObject object.
             
         """
         return approach.neo.diameter
 
 class HazardousFilter(AttributeFilter):
-    """Subclass to filter CloseApproach objects by hazardous.
-    
-    """
+    """Subclass to filter CloseApproach objects by if it's hazardous."""
 
     @classmethod
     def get(cls, approach):
-        """Return the hazardous attribute
-                    
+        """Return the hazardous attribute of the neo assigned to the CloseApproach object for the diameter filter.
+        
+        Args:
+            approach (CloseApproach): A CloseApproach object.
+        Returns:
+            [float]: Returns the hazardous attribute of a NearEarthObject object.
+            
         """
         return approach.neo.hazardous
 
